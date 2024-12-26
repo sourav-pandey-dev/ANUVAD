@@ -134,3 +134,78 @@ function uploadImage() {
         })
         .catch(error => console.error('Error translating image:', error));
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('translate-text-btn')) {
+        document.getElementById('translate-text-btn').addEventListener('click', translateText);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const recordButton = document.getElementById('record-btn');
+    const pauseButton = document.createElement('button');
+    pauseButton.textContent = 'Pause';
+    pauseButton.classList.add('bg-orange-500', 'text-white', 'px-4', 'py-2', 'rounded-lg', 'ml-4');
+    pauseButton.style.display = 'none'; // Initially hidden
+
+    recordButton.parentNode.appendChild(pauseButton);
+
+    let mediaRecorder;
+    let audioChunks = [];
+    let isRecording = false;
+
+    recordButton.addEventListener('click', () => {
+        if (!isRecording) {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' }); 
+
+                        const formData = new FormData();
+                        formData.append('audio', audioBlob, 'recorded_audio.wav');
+
+                        fetch('/translate-voice', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('translated-voice-text').innerText = data.translated_text;
+                        })
+                        .catch(error => {
+                            console.error('Error translating voice:', error);
+                        });
+
+                        audioChunks = []; // Clear for next recording
+                        isRecording = false;
+                        recordButton.textContent = 'Start Recording';
+                        pauseButton.style.display = 'none';
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    recordButton.textContent = 'Stop Recording';
+                    pauseButton.style.display = 'inline-block';
+                })
+                .catch(err => {
+                    console.error('Error accessing microphone:', err);
+                });
+        } else {
+            mediaRecorder.pause();
+            recordButton.textContent = 'Resume Recording';
+        }
+    });
+
+    pauseButton.addEventListener('click', () => {
+        if (isRecording) {
+            mediaRecorder.resume();
+            recordButton.textContent = 'Stop Recording';
+        }
+    });
+});
