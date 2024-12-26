@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mx-auto py-10 flex gap-8">
+    <div class="w-1/2">
+        <textarea id="text-input" class="w-full p-4 border rounded-lg" rows="10" placeholder="Enter text here..."></textarea>
+        <div class="flex mt-4 gap-4">
+            <select id="source-lang" class="p-2 border rounded">
+                <option value="auto">Detect Language</option>
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <!-- Add more options -->
+            </select>
+            <select id="target-lang" class="p-2 border rounded">
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <!-- Add more options -->
+            </select>
+        </div>
+        <button id="translate-text-btn" class="bg-orange-500 text-white px-4 py-2 mt-4 rounded-lg">Translate</button>
+    </div>
+    <div class="w-1/2 p-4 border rounded-lg bg-gray-50">
+        <p>Translated text will appear here:</p>
+        <p id="translated-text">No translation yet...</p>
+    </div>
+</div>
+{% endblock %}

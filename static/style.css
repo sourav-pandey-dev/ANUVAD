@@ -1,0 +1,114 @@
+/* Base styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #eb6a2e; /* Light orange background */
+    color: #333; /* Text color for contrast */
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar styles */
+nav {
+    background-color: #F97316; /* Primary orange */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+    color: #FFF; /* White text for contrast */
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 8px 12px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    background-color: #E65B0D; /* Darker orange for hover effect */
+    border-radius: 4px;
+}
+
+/* Active link styling */
+nav a.active {
+    background-color: #E65B0D; /* Slightly darker for active links */
+    color: #FFF; /* Ensure contrast */
+    border-radius: 4px;
+}
+
+/* Main content styling */
+main {
+    padding: 20px;
+    background-color: #FFF7E6; /* Light orange background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styles */
+button, .btn {
+    background-color: #F97316; /* Primary orange */
+    color: #FFF; /* White text */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button:hover, .btn:hover {
+    background-color: #E65B0D; /* Darker orange */
+}
+
+/* Form styles */
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #E65B0D; /* Light orange border */
+    border-radius: 4px;
+    background-color: #FFF7E6; /* Subtle background */
+    font-size: 1rem;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #F97316; /* Primary orange focus */
+}
+
+/* Footer styles */
+footer {
+    background-color: #F97316; /* Primary orange */
+    color: #FFF; /* White text */
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer a {
+    color: #FFF; /* White links */
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: #FFE0B2; /* Soft yellow for hover */
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav a {
+        display: block;
+        padding: 10px;
+        width: 100%;
+    }
+
+    main {
+        padding: 15px;
+    }
+}

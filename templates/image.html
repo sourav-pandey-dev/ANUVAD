@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mx-auto py-10">
+    <div class="flex gap-8">
+        <div class="w-1/2 p-4 border rounded-lg">
+            <input type="file" id="image-input" class="w-full mb-4">
+            <select id="image-target-lang" class="w-full mb-4 p-2 border rounded">
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <!-- Add more options -->
+            </select>
+            <button id="upload-image-btn" class="bg-orange-500 text-white px-4 py-2 rounded-lg">Upload</button>
+        </div>
+        <div class="w-1/2 p-4 border rounded-lg bg-gray-50">
+            <p><strong>Extracted Text:</strong></p>
+            <p id="extracted-text">No text extracted yet...</p>
+            <p><strong>Translated Text:</strong></p>
+            <p id="image-translated-text">No translation yet...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
