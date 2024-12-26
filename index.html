@@ -18,6 +18,38 @@
                 options[i].style.display = text.includes(filter) ? '' : 'none';
             }
         }
+        document.getElementById('text-translate-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Grab the text from the input
+            const sourceText = document.getElementById('source-text').value;
+            const targetLang = document.getElementById('target-lang').value;
+
+            // Create a FormData object to send the form data
+            const formData = new FormData();
+            formData.append('text', sourceText);
+            formData.append('target_lang', targetLang);
+
+            // Send the form data using fetch
+            fetch('/translate-text', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.translated_text) {
+                        // Update the output box with the translated text
+                        document.getElementById('output-box').innerHTML = `<p>${data.translated_text}</p>`;
+                    } else {
+                        document.getElementById('output-box').innerHTML = `<p class="text-red-500">${data.error}</p>`;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('output-box').innerHTML = `<p class="text-red-500">Error: ${error}</p>`;
+                });
+        });
+
+
     </script>
     <style>
         body {
@@ -29,6 +61,16 @@
             backdrop-filter: blur(10px);
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.125);
+        }
+
+        .output-box {
+            min-height: 150px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            background-color: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
@@ -107,8 +149,17 @@
                         class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300">
                         Translate Image
                     </button>
-                </form> 
+                </form>
             </div>
+            <!-- Output Box Section -->
+            <div class="bg-white rounded-lg p-6 shadow-lg">
+                <h2 class="text-2xl font-semibold text-orange-600 mb-4">Translated Text Output</h2>
+                <div id="output-box" class="output-box text-gray-800">
+                    <!-- Translated text will appear here -->
+                    <p class="text-gray-500">Your translated text will appear here...</p>
+                </div>
+            </div>
+
         </div>
 
         <div class="text-center mt-6 text-white text-sm opacity-70">
