@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import os
 import pytesseract
+import cv2
 from googletrans import Translator, LANGUAGES
 from werkzeug.utils import secure_filename
 
@@ -26,8 +27,7 @@ def allowed_file(filename):
 @app.route('/')
 def index():
     # Returns the index page with language options
-    languages = LANGUAGES
-    return render_template('index.html', languages=languages)
+    return render_template('index.html', languages=LANGUAGES)
 
 @app.route('/translate-text', methods=['POST'])
 def translate_text():
@@ -74,6 +74,11 @@ def translate_image():
         img = cv2.imread(file_path)
         extracted_text = pytesseract.image_to_string(img)
 
+        # If no text was extracted, return an error
+        if not extracted_text.strip():
+            return jsonify({'error': 'No text could be extracted from the image'}), 400
+
+        # Translate the extracted text
         target_lang = request.form.get('target_lang', 'en')
         translated = translator.translate(extracted_text, dest=target_lang)
 

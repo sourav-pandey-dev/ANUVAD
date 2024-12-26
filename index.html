@@ -6,51 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANUVAD - Smart Translator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // JavaScript to filter the dropdown options
-        function filterDropdown(inputId, dropdownId) {
-            const input = document.getElementById(inputId);
-            const filter = input.value.toLowerCase();
-            const options = document.getElementById(dropdownId).options;
-
-            for (let i = 0; i < options.length; i++) {
-                const text = options[i].text.toLowerCase();
-                options[i].style.display = text.includes(filter) ? '' : 'none';
-            }
-        }
-        document.getElementById('text-translate-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // Grab the text from the input
-            const sourceText = document.getElementById('source-text').value;
-            const targetLang = document.getElementById('target-lang').value;
-
-            // Create a FormData object to send the form data
-            const formData = new FormData();
-            formData.append('text', sourceText);
-            formData.append('target_lang', targetLang);
-
-            // Send the form data using fetch
-            fetch('/translate-text', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.translated_text) {
-                        // Update the output box with the translated text
-                        document.getElementById('output-box').innerHTML = `<p>${data.translated_text}</p>`;
-                    } else {
-                        document.getElementById('output-box').innerHTML = `<p class="text-red-500">${data.error}</p>`;
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('output-box').innerHTML = `<p class="text-red-500">Error: ${error}</p>`;
-                });
-        });
-
-
-    </script>
     <style>
         body {
             background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
@@ -166,6 +121,71 @@
             © 2024 ANUVAD Translator | All Rights Reserved
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Form submission for text translation
+            document.getElementById('text-translate-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+    
+                // Grab the text from the input
+                const sourceText = document.getElementById('source-text').value;
+                const targetLang = document.getElementById('target-lang').value;
+    
+                // Create a FormData object to send the form data
+                const formData = new FormData();
+                formData.append('text', sourceText);
+                formData.append('target_lang', targetLang);
+    
+                // Send the form data using fetch
+                fetch('/translate-text', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.translated_text) {
+                            // Update the output box with the translated text
+                            document.getElementById('output-box').innerHTML = `<p>${data.translated_text}</p>`;
+                        } else {
+                            document.getElementById('output-box').innerHTML = `<p class="text-red-500">${data.error}</p>`;
+                        }
+                    })
+                    .catch(error => {
+                        document.getElementById('output-box').innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+                    });
+            });
+    
+            // Dropdown filtering logic
+            function filterDropdown(inputId, dropdownId) {
+                const input = document.getElementById(inputId);
+                const filter = input.value.toLowerCase();
+                const dropdown = document.getElementById(dropdownId);
+    
+                // Filter options by recreating the dropdown
+                const originalOptions = Array.from(dropdown.options);
+                dropdown.innerHTML = '';
+                originalOptions.forEach(option => {
+                    if (option.text.toLowerCase().includes(filter)) {
+                        dropdown.appendChild(option);
+                    }
+                });
+            }
+    
+            // Attach event listeners for language filtering
+            document.getElementById('target-lang-search').addEventListener('input', function () {
+                filterDropdown('target-lang-search', 'target-lang');
+            });
+            document.getElementById('image-target-lang-search').addEventListener('input', function () {
+                filterDropdown('image-target-lang-search', 'image-target-lang');
+            });
+        });
+    </script>
+    
 </body>
 
 </html>
