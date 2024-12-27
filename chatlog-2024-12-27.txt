@@ -1,0 +1,26 @@
+You: hey how are you
+
+You: hello
+
+You: hello hello
+
+You: hello how r u
+
+AI: 你好，你好吗？
+
+You: good morning
+
+AI: Bonjour
+
+You: hey Hitler
+
+AI: I'm sorry, I don't know how to translate "hey Hitler" into German.
+
+You: hey Google how are you
+
+AI: Hey Google, wie geht es dir?
+
+You: hi how are you it's a pleasant day
+
+AI: Salut, comment vas-tu ? Il fait beau aujourd'hui.
+
