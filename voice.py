@@ -39,8 +39,16 @@ language_map = {
     "Chinese": "zh-CN",
     "Spanish": "es",
     "French": "fr",
-    "German": "de"
+    "German": "de",
+    "Hindi": "hi",
+    "Arabic": "ar",
+    "Japanese": "ja",
+    "Korean": "ko",
+    "Russian": "ru",
+    "Italian": "it",
+    # Add more languages here
 }
+
 
 # Text-to-speech function
 def speak_text(text):
