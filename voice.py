@@ -11,7 +11,7 @@ import google.generativeai as genai
 mixer.init()
 
 # Set Google Gemini API key
-genai.configure(api_key="AIzaSyCaFda7lfrVBBSkbIRnLJVuI52pKqH13Es")
+genai.configure(api_key="GeminiApiKey")
 
 today = str(date.today())
 
